@@ -1,0 +1,18 @@
+{
+  "displayName": "FIX4 Enabled sample",
+  "state": "enabledForReportingButNotEnforced",
+  "conditions": {
+    "applications": {
+      "includeApplications": ["All"]
+    },
+    "users": {
+      "includeUsers": ["All"],
+      "excludeGroups": ["{{BREAK_GLASS_GROUP_ID}}"]
+    },
+    "clientAppTypes": ["all"]
+  },
+  "grantControls": {
+    "operator": "OR",
+    "builtInControls": ["mfa"]
+  }
+}

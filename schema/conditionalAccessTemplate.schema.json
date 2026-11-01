@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SecOak/ca-policy-pack/schema/conditionalAccessTemplate.schema.json",
+  "title": "Conditional Access policy template",
+  "description": "Validates a policy template against the subset of the Microsoft Graph v1.0 conditionalAccessPolicy shape used by this pack. Licence, risk, deployment order, and notes are not modelled here; they live in manifest.json because Graph rejects unknown fields on the policy body itself.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["displayName", "state", "conditions"],
+  "anyOf": [
+    { "required": ["grantControls"] },
+    { "required": ["sessionControls"] }
+  ],
+  "properties": {
+    "displayName": {
+      "type": "string",
+      "pattern": "^CA[0-9]{3} .+$"
+    },
+    "state": {
+      "const": "enabledForReportingButNotEnforced"
+    },
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applications", "clientAppTypes", "users"],
+      "properties": {
+        "applications": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["includeApplications"],
+          "properties": {
+            "includeApplications": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "users": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["excludeGroups"],
+          "anyOf": [
+            { "required": ["includeUsers"] },
+            { "required": ["includeRoles"] }
+          ],
+          "properties": {
+            "includeUsers": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            },
+            "includeRoles": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            },
+            "excludeRoles": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            },
+            "excludeGroups": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "clientAppTypes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["all", "browser", "mobileAppsAndDesktopClients", "exchangeActiveSync", "other"]
+          }
+        },
+        "platforms": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "includePlatforms": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            },
+            "excludePlatforms": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "devices": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "deviceFilter": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["mode", "rule"],
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": ["include", "exclude"]
+                },
+                "rule": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        },
+        "signInRiskLevels": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "none", "unknownFutureValue"]
+          }
+        }
+      }
+    },
+    "grantControls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operator"],
+      "anyOf": [
+        { "required": ["builtInControls"] },
+        { "required": ["authenticationStrength"] }
+      ],
+      "properties": {
+        "operator": {
+          "type": "string",
+          "enum": ["AND", "OR"]
+        },
+        "builtInControls": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["mfa", "compliantDevice", "domainJoinedDevice", "block"]
+          }
+        },
+        "authenticationStrength": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id"],
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            }
+          }
+        }
+      }
+    },
+    "sessionControls": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "signInFrequency": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["isEnabled"],
+          "properties": {
+            "isEnabled": { "type": "boolean" },
+            "type": {
+              "type": "string",
+              "enum": ["days", "hours"]
+            },
+            "value": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "frequencyInterval": {
+              "type": "string",
+              "enum": ["timeBased", "everyTime"]
+            },
+            "authenticationType": {
+              "type": "string",
+              "enum": ["primaryAndSecondaryAuthentication", "secondaryAuthentication"]
+            }
+          }
+        },
+        "persistentBrowser": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["isEnabled", "mode"],
+          "properties": {
+            "isEnabled": { "type": "boolean" },
+            "mode": {
+              "type": "string",
+              "enum": ["always", "never"]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "displayName": "CA005 Block unknown platforms",
+  "state": "enabledForReportingButNotEnforced",
+  "conditions": {
+    "applications": {
+      "includeApplications": ["All"]
+    },
+    "users": {
+      "includeUsers": ["All"],
+      "excludeGroups": ["{{BREAK_GLASS_GROUP_ID}}"]
+    },
+    "clientAppTypes": ["all"],
+    "platforms": {
+      "includePlatforms": ["all"],
+      "excludePlatforms": ["android", "iOS", "windows", "macOS", "linux"]
+    }
+  },
+  "grantControls": {
+    "operator": "OR",
+    "builtInControls": ["block"]
+  }
+}

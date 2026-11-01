@@ -1,0 +1,19 @@
+{
+  "displayName": "CA007 Block high-risk sign-ins",
+  "state": "enabledForReportingButNotEnforced",
+  "conditions": {
+    "applications": {
+      "includeApplications": ["All"]
+    },
+    "users": {
+      "includeUsers": ["All"],
+      "excludeGroups": ["{{BREAK_GLASS_GROUP_ID}}"]
+    },
+    "clientAppTypes": ["all"],
+    "signInRiskLevels": ["high"]
+  },
+  "grantControls": {
+    "operator": "OR",
+    "builtInControls": ["block"]
+  }
+}

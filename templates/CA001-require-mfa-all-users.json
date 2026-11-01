@@ -1,0 +1,19 @@
+{
+  "displayName": "CA001 Require MFA for all users",
+  "state": "enabledForReportingButNotEnforced",
+  "conditions": {
+    "applications": {
+      "includeApplications": ["All"]
+    },
+    "users": {
+      "includeUsers": ["All"],
+      "excludeRoles": ["d29b2b05-8046-44ba-8758-1e26182fcf32"],
+      "excludeGroups": ["{{BREAK_GLASS_GROUP_ID}}"]
+    },
+    "clientAppTypes": ["all"]
+  },
+  "grantControls": {
+    "operator": "OR",
+    "builtInControls": ["mfa"]
+  }
+}

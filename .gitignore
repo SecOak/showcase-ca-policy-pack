@@ -1,0 +1,9 @@
+# Tenant exports: CA baseline snapshots are tenant-specific and never enter the repository
+CaBaseline-*
+
+# Release artifacts
+*.zip
+dist/
+
+# Test results
+testResults.xml

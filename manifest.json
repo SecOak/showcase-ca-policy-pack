@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "1.0",
+  "templates": [
+    {
+      "id": "CA001",
+      "file": "templates/CA001-require-mfa-all-users.json",
+      "displayName": "CA001 Require MFA for all users",
+      "licence": "Entra ID P1",
+      "requiresSwitch": null,
+      "order": 3,
+      "summary": "Requires multi-factor authentication for every user signing in to any application. Excludes the break-glass group and the Directory Synchronization Accounts role."
+    },
+    {
+      "id": "CA002",
+      "file": "templates/CA002-block-legacy-authentication.json",
+      "displayName": "CA002 Block legacy authentication",
+      "licence": "Entra ID P1",
+      "requiresSwitch": null,
+      "order": 1,
+      "summary": "Blocks legacy authentication protocols (Exchange ActiveSync and other basic-auth clients) that cannot satisfy multi-factor authentication."
+    },
+    {
+      "id": "CA003",
+      "file": "templates/CA003-require-mfa-admins.json",
+      "displayName": "CA003 Require MFA for admins",
+      "licence": "Entra ID P1",
+      "requiresSwitch": null,
+      "order": 2,
+      "summary": "Requires multi-factor authentication for directory administrators in the built-in privileged roles."
+    },
+    {
+      "id": "CA004",
+      "file": "templates/CA004-require-compliant-or-hybrid-device-admins.json",
+      "displayName": "CA004 Require compliant or hybrid joined device for admins",
+      "licence": "Entra ID P1 plus Intune",
+      "requiresSwitch": null,
+      "order": 5,
+      "summary": "Requires a compliant or Microsoft Entra hybrid joined device for directory administrators. Device compliance requires Intune enrolment. Covers only the roles that can change device and access settings, so Intune and helpdesk style administrators keep the access they need to fix compliance problems."
+    },
+    {
+      "id": "CA005",
+      "file": "templates/CA005-block-unknown-platforms.json",
+      "displayName": "CA005 Block unknown platforms",
+      "licence": "Entra ID P1",
+      "requiresSwitch": null,
+      "order": 4,
+      "summary": "Blocks sign-in from device platforms outside the common desktop and mobile set (Android, iOS, Windows, macOS, Linux)."
+    },
+    {
+      "id": "CA006",
+      "file": "templates/CA006-sign-in-frequency-unmanaged-devices.json",
+      "displayName": "CA006 Sign-in frequency on unmanaged devices",
+      "licence": "Entra ID P1",
+      "requiresSwitch": null,
+      "order": 6,
+      "summary": "Shortens the sign-in frequency to 8 hours and disables persistent browser sessions on devices that are not compliant or hybrid joined."
+    },
+    {
+      "id": "CA007",
+      "file": "templates/CA007-block-high-risk-sign-ins.json",
+      "displayName": "CA007 Block high-risk sign-ins",
+      "licence": "Entra ID P2",
+      "requiresSwitch": "IncludeP2",
+      "order": 7,
+      "summary": "Blocks sign-ins that Microsoft Entra ID Protection scores as high risk. Requires Entra ID P2."
+    },
+    {
+      "id": "CA008",
+      "file": "templates/CA008-phishing-resistant-mfa-admins.json",
+      "displayName": "CA008 Phishing-resistant MFA for admins",
+      "licence": "Entra ID P1",
+      "requiresSwitch": "IncludePhishingResistant",
+      "order": 8,
+      "summary": "Requires phishing-resistant multi-factor authentication for directory administrators. Admins must register a FIDO2 key or Windows Hello for Business before this is enforced. Covers only the roles that can change identity and access settings, since phishing-resistant MFA should start with the administrators who could otherwise turn it off."
+    }
+  ]
+}

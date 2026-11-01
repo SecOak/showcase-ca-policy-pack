@@ -1,0 +1,22 @@
+{
+  "id": "aaaaaaaa-0000-0000-0000-000000000002",
+  "displayName": "FIX2 Differs sample",
+  "state": "enabledForReportingButNotEnforced",
+  "createdDateTime": "2026-01-01T00:00:00Z",
+  "modifiedDateTime": "2026-01-02T00:00:00Z",
+  "conditions": {
+    "applications": {
+      "includeApplications": ["All"]
+    },
+    "users": {
+      "includeUsers": ["All"],
+      "excludeRoles": ["44444444-4444-4444-4444-444444444444"],
+      "excludeGroups": ["99999999-9999-9999-9999-999999999999"]
+    },
+    "clientAppTypes": ["all"]
+  },
+  "grantControls": {
+    "operator": "OR",
+    "builtInControls": ["mfa"]
+  }
+}

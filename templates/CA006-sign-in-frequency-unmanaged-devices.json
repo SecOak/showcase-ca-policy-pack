@@ -1,0 +1,33 @@
+{
+  "displayName": "CA006 Sign-in frequency on unmanaged devices",
+  "state": "enabledForReportingButNotEnforced",
+  "conditions": {
+    "applications": {
+      "includeApplications": ["All"]
+    },
+    "users": {
+      "includeUsers": ["All"],
+      "excludeGroups": ["{{BREAK_GLASS_GROUP_ID}}"]
+    },
+    "clientAppTypes": ["all"],
+    "devices": {
+      "deviceFilter": {
+        "mode": "include",
+        "rule": "device.isCompliant -ne True -and device.trustType -ne \"ServerAD\""
+      }
+    }
+  },
+  "sessionControls": {
+    "signInFrequency": {
+      "isEnabled": true,
+      "type": "hours",
+      "value": 8,
+      "frequencyInterval": "timeBased",
+      "authenticationType": "primaryAndSecondaryAuthentication"
+    },
+    "persistentBrowser": {
+      "isEnabled": true,
+      "mode": "never"
+    }
+  }
+}

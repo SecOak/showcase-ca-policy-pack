@@ -1,0 +1,39 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  analyze-and-test:
+    runs-on: windows-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Install Pester, PSScriptAnalyzer, and Microsoft.Graph.Authentication
+        shell: pwsh
+        run: |
+          Install-Module Pester -MinimumVersion 5.5 -MaximumVersion 5.99.99 -Force -SkipPublisherCheck -Scope CurrentUser
+          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+          Install-Module Microsoft.Graph.Authentication -RequiredVersion 2.41.0 -Force -Scope CurrentUser
+
+      - name: Run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $results = Invoke-ScriptAnalyzer -Path . -Recurse -Severity Warning,Error -Settings PSScriptAnalyzerSettings.psd1
+          if ($results) {
+              $results | Format-Table RuleName, Severity, ScriptName, Line, Message -AutoSize -Wrap | Out-String -Width 200 | Write-Host
+              throw "PSScriptAnalyzer reported $(@($results).Count) finding(s)."
+          }
+          Write-Host 'PSScriptAnalyzer reported no findings.'
+
+      - name: Run Pester
+        shell: pwsh
+        run: |
+          Import-Module Pester -MinimumVersion 5.5 -MaximumVersion 5.99.99
+          Invoke-Pester -Path tests -CI

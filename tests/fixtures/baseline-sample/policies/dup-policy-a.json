@@ -1,0 +1,20 @@
+{
+  "id": "bbbbbbbb-0000-0000-0000-000000000007",
+  "displayName": "FIX7 Duplicate sample",
+  "state": "enabled",
+  "createdDateTime": "2026-01-01T00:00:00Z",
+  "modifiedDateTime": "2026-01-02T00:00:00Z",
+  "conditions": {
+    "applications": {
+      "includeApplications": ["All"]
+    },
+    "users": {
+      "includeUsers": ["All"]
+    },
+    "clientAppTypes": ["all"]
+  },
+  "grantControls": {
+    "operator": "OR",
+    "builtInControls": ["mfa"]
+  }
+}
